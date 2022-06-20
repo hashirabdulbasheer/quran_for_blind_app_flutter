@@ -31,7 +31,7 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-            title: Text(widget.selectedSurah.name,
+            title: Text("Surah  Screen",
                 style: Theme.of(context).textTheme.titleLarge)),
         body: FutureBuilder<List<NQWord>>(
           future: _getAllWords(),
@@ -47,6 +47,19 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
                   _allWords = snapshot.data ?? [];
                   return Column(
                     children: [
+                      // title
+                      Text(
+                        widget.selectedSurah.name,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontFamily: "Alvi"),
+                      ),
+
+                      const SizedBox(
+                        height: 10,
+                      ),
+
                       // controls
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -74,9 +87,8 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
                                         primary: Colors.white),
                                     child: Text(
                                       "Previous word",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge,
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
                                       textAlign: TextAlign.center,
                                     )),
                               ),
@@ -89,8 +101,7 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
                                 height: 100,
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    if (_currentWord + 1 <
-                                        _allWords.length) {
+                                    if (_currentWord + 1 < _allWords.length) {
                                       setState(() {
                                         _currentWord++;
                                       });
@@ -106,9 +117,8 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
                                       primary: Colors.white),
                                   child: Text(
                                     "Next word",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -122,8 +132,7 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
-                            mainAxisAlignment:
-                                MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
                                 _allWords[_currentWord].ar,
@@ -134,7 +143,9 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
                                     color: Colors.white,
                                     fontFamily: "Alvi"),
                               ),
-                              const SizedBox(height: 10,),
+                              const SizedBox(
+                                height: 10,
+                              ),
                               Directionality(
                                 textDirection: TextDirection.ltr,
                                 child: Text(
