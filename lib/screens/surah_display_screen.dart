@@ -20,6 +20,15 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
   int _currentWord = 0;
 
   @override
+  void initState() {
+    super.initState();
+    // announce the surah name when screen opens
+    Future.delayed(const Duration(seconds: 1), () {
+      announce("${widget.selectedSurah.name} AAYAT 1");
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return _body(context);
   }
@@ -32,6 +41,7 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
             title: Text("Surah  Screen",
+                semanticsLabel: "Surah  Screen",
                 style: Theme.of(context).textTheme.titleLarge)),
         body: FutureBuilder<List<NQWord>>(
           future: _getAllWords(),
@@ -45,123 +55,128 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 } else {
                   _allWords = snapshot.data ?? [];
-                  return Column(
-                    children: [
-                      // title
-                      Text(
-                        widget.selectedSurah.name,
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontFamily: "Alvi"),
-                      ),
-
-                      const SizedBox(
-                        height: 10,
-                      ),
-
-                      // controls
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                  return SingleChildScrollView(
+                    child: IntrinsicHeight(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
                         children: [
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                height: 100,
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      if (_currentWord - 1 >= 0) {
-                                        setState(() {
-                                          _currentWord--;
-                                        });
-                                        announce(
-                                            "${_allWords[_currentWord].ar}\n\n${_allWords[_currentWord].tr}",
-                                            TextDirection.ltr);
-                                      } else {
-                                        announce("No more previous words",
-                                            TextDirection.ltr);
-                                      }
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        primary: Colors.white),
-                                    child: Text(
-                                      "Previous word",
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
-                                      textAlign: TextAlign.center,
-                                    )),
-                              ),
+                          // title
+                          Flexible(
+                            child: Text(
+                              widget.selectedSurah.name,
+                              semanticsLabel: widget.selectedSurah.name,
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                  fontFamily: "Alvi"),
                             ),
                           ),
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                height: 100,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    if (_currentWord + 1 < _allWords.length) {
-                                      setState(() {
-                                        _currentWord++;
-                                      });
-                                      announce(
-                                          "${_allWords[_currentWord].ar}\n\n${_allWords[_currentWord].tr}",
-                                          TextDirection.ltr);
-                                    } else {
-                                      announce("You are at the last word.",
-                                          TextDirection.ltr);
-                                    }
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      primary: Colors.white),
-                                  child: Text(
-                                    "Next word",
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                    textAlign: TextAlign.center,
+
+                          const SizedBox(height: 10),
+
+                          // controls
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    height: 100,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          if (_currentWord - 1 >= 0) {
+                                            setState(() {
+                                              _currentWord--;
+                                            });
+                                            announce(
+                                                "${_allWords[_currentWord].ar}\n\n${_allWords[_currentWord].tr}");
+                                          } else {
+                                            announce("No more previous words");
+                                          }
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            primary: Colors.white),
+                                        child: Text(
+                                          "Previous word",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyLarge,
+                                          textAlign: TextAlign.center,
+                                        )),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      // content
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                _allWords[_currentWord].ar,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    height: 1.5,
-                                    fontSize: 80,
-                                    color: Colors.white,
-                                    fontFamily: "Alvi"),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Directionality(
-                                textDirection: TextDirection.ltr,
-                                child: Text(
-                                  _allWords[_currentWord].tr,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    fontSize: 60,
-                                    color: Colors.white,
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    height: 100,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        if (_currentWord + 1 <
+                                            _allWords.length) {
+                                          setState(() {
+                                            _currentWord++;
+                                          });
+                                          announce(
+                                              "${_allWords[_currentWord].ar}\n\n${_allWords[_currentWord].tr}");
+                                        } else {
+                                          announce("You are at the last word.");
+                                        }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.white),
+                                      child: Text(
+                                        "Next word",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
+
+                          // content
+                          SizedBox(
+                            height: 400,
+                            child: Center(
+                              child: Table(
+                                defaultVerticalAlignment:
+                                    TableCellVerticalAlignment.middle,
+                                children: [
+                                  TableRow(children: [
+                                    Text(
+                                      _allWords[_currentWord].ar,
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                          fontSize: 80,
+                                          color: Colors.white,
+                                          fontFamily: "Alvi"),
+                                    ),
+                                  ]),
+                                  TableRow(children: [
+                                    Directionality(
+                                      textDirection: TextDirection.ltr,
+                                      child: Text(
+                                        _allWords[_currentWord].tr,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontSize: 60, color: Colors.white),
+                                      ),
+                                    ),
+                                  ]),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    ],
+                    ),
                   );
                 }
             }
@@ -183,7 +198,7 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
           tr: "$currentAyat",
           aya: currentAyat,
           sura: widget.selectedSurah.number,
-          ar: "AYAT"));
+          ar: "AAYAT"));
       for (NQWord word in ayat) {
         allWords.add(word);
       }
@@ -199,10 +214,9 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
   }
 
   // read aloud
-  static Future<void> announce(
-      String message, TextDirection textDirection) async {
+  static Future<void> announce(String message) async {
     final AnnounceSemanticsEvent event =
-        AnnounceSemanticsEvent(message, textDirection);
+        AnnounceSemanticsEvent(message, TextDirection.ltr);
     await SystemChannels.accessibility.send(event.toMap());
   }
 }
