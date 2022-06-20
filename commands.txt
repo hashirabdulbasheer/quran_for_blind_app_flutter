@@ -1,0 +1,2 @@
+
+flutter build web --release --base-href="/apps/quran-blind/"

@@ -1,0 +1,27 @@
+name: quran_for_blind_app_flutter
+description: Noble Quran app for the blind, with word by word meaning
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.18.0-189.0.dev <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  noble_quran:
+    git: https://github.com/hashirabdulbasheer/noble_quran_flutter_package
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Alvi
+      fonts:
+        - asset: assets/fonts/AlMushafQuran.ttf
