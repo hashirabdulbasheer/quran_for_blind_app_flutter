@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
-import 'package:flutter/services.dart';
 import 'package:noble_quran/models/surah_title.dart';
 import 'package:noble_quran/models/word.dart';
 import 'package:noble_quran/noble_quran.dart';
 
-class QBSurahDisplayScreen extends StatefulWidget {
-  const QBSurahDisplayScreen({Key? key, required this.selectedSurah})
+import '../utils/quran_utils.dart';
+
+class QBSurahWordDisplayScreen extends StatefulWidget {
+  const QBSurahWordDisplayScreen({Key? key, required this.selectedSurah})
       : super(key: key);
 
   final NQSurahTitle selectedSurah;
 
   @override
-  State<QBSurahDisplayScreen> createState() => _QBSurahDisplayScreenState();
+  State<QBSurahWordDisplayScreen> createState() =>
+      _QBSurahWordDisplayScreenState();
 }
 
-class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
+class _QBSurahWordDisplayScreenState extends State<QBSurahWordDisplayScreen> {
   List<NQWord> _allWords = [];
   int _currentWord = 0;
 
@@ -24,7 +25,7 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
     super.initState();
     // announce the surah name when screen opens
     Future.delayed(const Duration(seconds: 1), () {
-      announce("${widget.selectedSurah.name} AAYAT 1");
+      QuranUtils.announce("${widget.selectedSurah.name} AAYAT 1");
     });
   }
 
@@ -89,10 +90,11 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
                                             setState(() {
                                               _currentWord--;
                                             });
-                                            announce(
+                                            QuranUtils.announce(
                                                 "${_allWords[_currentWord].ar}\n\n${_allWords[_currentWord].tr}");
                                           } else {
-                                            announce("No more previous words");
+                                            QuranUtils.announce(
+                                                "No more previous words");
                                           }
                                         },
                                         style: ElevatedButton.styleFrom(
@@ -119,10 +121,11 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
                                           setState(() {
                                             _currentWord++;
                                           });
-                                          announce(
+                                          QuranUtils.announce(
                                               "${_allWords[_currentWord].ar}\n\n${_allWords[_currentWord].tr}");
                                         } else {
-                                          announce("You are at the last word.");
+                                          QuranUtils.announce(
+                                              "You are at the last word.");
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -211,12 +214,5 @@ class _QBSurahDisplayScreenState extends State<QBSurahDisplayScreen> {
         sura: widget.selectedSurah.number,
         ar: "END"));
     return allWords;
-  }
-
-  // read aloud
-  static Future<void> announce(String message) async {
-    final AnnounceSemanticsEvent event =
-        AnnounceSemanticsEvent(message, TextDirection.ltr);
-    await SystemChannels.accessibility.send(event.toMap());
   }
 }

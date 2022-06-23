@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:noble_quran/models/surah_title.dart';
 import 'package:noble_quran/noble_quran.dart';
-import 'surah_display_screen.dart';
+import 'package:quran_for_blind_app_flutter/utils/quran_utils.dart';
+import '../enums/quran_reading_type_enum.dart';
+import 'surah_ayat_display_screen.dart';
+import 'surah_word_display_screen.dart';
 
-class QBSurahListScreen extends StatelessWidget {
+// TODO: Update before release
+const String appVersion = "1.0.0";
+
+class QBSurahListScreen extends StatefulWidget {
   const QBSurahListScreen({Key? key}) : super(key: key);
 
-  // TODO: Update before release
-  final String appVersion = "1.0.0";
+  @override
+  State<QBSurahListScreen> createState() => _QBSurahListScreenState();
+}
+
+class _QBSurahListScreenState extends State<QBSurahListScreen> {
+  QuranReadingTypeEnum? _readingMode;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +33,48 @@ class QBSurahListScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Semantics(
+              label: "Select a reading mode from below",
+              excludeSemantics: true,
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text("Select a reading mode from below",
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                      textAlign: TextAlign.center),
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      height: 60,
+                      child: ElevatedButton(
+                          style:
+                              ElevatedButton.styleFrom(primary: Colors.white),
+                          onPressed: () async {
+                            QuranReadingTypeEnum? mode =
+                                await _readingModeSelectionDialog(context);
+                            if (mode != null) {
+                              setState(() {
+                                _readingMode = mode;
+                              });
+                            }
+                          },
+                          child: Text(
+                            _readingMode?.rawValue ??
+                                QuranReadingTypeEnum.wordByWord.rawValue,
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 30),
+                          )),
+                    ),
+                  ),
+                )
+              ],
+            ),
             Semantics(
               label: "Select a surah from below",
               excludeSemantics: true,
@@ -65,14 +117,30 @@ class QBSurahListScreen extends StatelessWidget {
                                       "tap to display ${titles[index].name}",
                                   child: ListTile(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                QBSurahDisplayScreen(
-                                                    selectedSurah:
-                                                        titles[index])),
-                                      );
+                                      // default is word by word
+                                      QuranReadingTypeEnum selectedReadingMode =
+                                          _readingMode ??
+                                              QuranReadingTypeEnum.wordByWord;
+                                      if (selectedReadingMode ==
+                                          QuranReadingTypeEnum.wordByWord) {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  QBSurahWordDisplayScreen(
+                                                      selectedSurah:
+                                                          titles[index])),
+                                        );
+                                      } else {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  QBSurahAyatDisplayScreen(
+                                                      selectedSurah:
+                                                          titles[index])),
+                                        );
+                                      }
                                     },
                                     title: Padding(
                                       padding: const EdgeInsets.all(10.0),
@@ -94,13 +162,13 @@ class QBSurahListScreen extends StatelessWidget {
             Semantics(
               enabled: false,
               excludeSemantics: true,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "v$appVersion uxQuran",
-                    style: const TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
@@ -110,4 +178,66 @@ class QBSurahListScreen extends StatelessWidget {
       ),
     );
   }
+
+  Future<QuranReadingTypeEnum?> _readingModeSelectionDialog(
+      BuildContext context) async {
+    // set up the buttons
+    Widget wordButton = ElevatedButton(
+      style: ElevatedButton.styleFrom(primary: Colors.black),
+      onPressed: () {
+        Navigator.of(context).pop(QuranReadingTypeEnum.wordByWord);
+      },
+      child: const Text(
+        "Word by word",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+
+    Widget ayatButton = ElevatedButton(
+      style: ElevatedButton.styleFrom(primary: Colors.black),
+      child: const Text(
+        "Entire Ayat",
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: () {
+        Navigator.of(context).pop(QuranReadingTypeEnum.ayat);
+      },
+    );
+
+    Widget cancelButton = ElevatedButton(
+      style: ElevatedButton.styleFrom(primary: Colors.black),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+      child: const Text(
+        "Cancel",
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Select a reading mode",
+        style:
+            TextStyle(color: Colors.black, fontSize: 25, fontFamily: "default"),
+      ),
+      content: const Text(
+          "Do you want to read a word at a time with its translation or an entire aayt?"),
+      actions: [
+        wordButton,
+        ayatButton,
+        cancelButton,
+      ],
+    );
+
+    // show the dialog
+    return await showDialog<QuranReadingTypeEnum>(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 }
