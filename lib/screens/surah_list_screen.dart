@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:noble_quran/models/surah_title.dart';
 import 'package:noble_quran/noble_quran.dart';
-import 'package:quran_for_blind_app_flutter/utils/quran_utils.dart';
 import '../enums/quran_reading_type_enum.dart';
 import 'surah_ayat_display_screen.dart';
 import 'surah_word_display_screen.dart';
 
 // TODO: Update before release
-const String appVersion = "1.0.0";
+const String appVersion = "1.0.1";
 
 class QBSurahListScreen extends StatefulWidget {
   const QBSurahListScreen({Key? key}) : super(key: key);
