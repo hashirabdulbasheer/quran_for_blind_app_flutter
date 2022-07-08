@@ -50,7 +50,11 @@ class _QBSurahWordDisplayScreenState extends State<QBSurahWordDisplayScreen> {
               (BuildContext context, AsyncSnapshot<List<NQWord>> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                return const Center(child: Text('Loading....'));
+                return const Center(
+                    child: Text(
+                  'Loading....',
+                  style: TextStyle(color: Colors.white),
+                ));
               default:
                 if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));

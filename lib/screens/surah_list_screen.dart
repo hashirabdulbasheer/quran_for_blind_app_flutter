@@ -93,7 +93,10 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
                       AsyncSnapshot<List<NQSurahTitle>> snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return const Text('Loading....');
+                        return const Text(
+                          'Loading....',
+                          style: TextStyle(color: Colors.white),
+                        );
                       default:
                         if (snapshot.hasError) {
                           return Text('Error: ${snapshot.error}');
@@ -195,7 +198,7 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
     Widget ayatButton = ElevatedButton(
       style: ElevatedButton.styleFrom(primary: Colors.black),
       child: const Text(
-        "Entire Ayat",
+        "Entire Aayat",
         style: TextStyle(color: Colors.white),
       ),
       onPressed: () {
@@ -238,5 +241,4 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
       },
     );
   }
-
 }
