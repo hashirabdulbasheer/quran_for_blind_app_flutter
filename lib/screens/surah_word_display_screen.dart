@@ -57,7 +57,9 @@ class _QBSurahWordDisplayScreenState extends State<QBSurahWordDisplayScreen> {
                 ));
               default:
                 if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  return Center(child: Text('Error: ${snapshot.error}',
+                                   style: const TextStyle(color: Colors.white)
+                  ));
                 } else {
                   _allWords = snapshot.data ?? [];
                   return SingleChildScrollView(

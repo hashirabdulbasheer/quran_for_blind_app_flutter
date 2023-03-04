@@ -4,7 +4,7 @@ import 'screens/surah_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
-  RendererBinding.instance.setSemanticsEnabled(true);
+  RendererBinding.instance.ensureSemantics();
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         // showSemanticsDebugger: true,
-        title: 'Quran For Blind',
+        title: 'Noble Quran',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primaryColor: Colors.white,

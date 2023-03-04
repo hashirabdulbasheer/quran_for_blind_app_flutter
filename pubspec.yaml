@@ -1,9 +1,9 @@
 name: quran_for_blind_app_flutter
-description: Noble Quran app for the blind, with word by word meaning
+description: Noble Quran app for Visually Challenged, with word by word meaning
 
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 1.0.0+3
 
 environment:
   sdk: '>=2.18.0-189.0.dev <3.0.0'
@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   noble_quran:
     git: https://github.com/hashirabdulbasheer/noble_quran_flutter_package
+  url_launcher: ^6.1.10
+
 
 dev_dependencies:
   flutter_test:

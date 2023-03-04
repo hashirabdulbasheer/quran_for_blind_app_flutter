@@ -207,7 +207,7 @@ class _QBSurahAyatDisplayScreenState extends State<QBSurahAyatDisplayScreen> {
         await NobleQuran.getSurahArabic(widget.selectedSurah.number - 1);
 
     NQSurah trSurah = await NobleQuran.getTranslationString(
-        widget.selectedSurah.number - 1, NQTranslation.SAHIH);
+        widget.selectedSurah.number - 1, NQTranslation.sahih);
 
     List<QuranAyat> allAyats = [];
     int currentAyat = 1;

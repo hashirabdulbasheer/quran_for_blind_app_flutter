@@ -4,9 +4,10 @@ import 'package:noble_quran/noble_quran.dart';
 import '../enums/quran_reading_type_enum.dart';
 import 'surah_ayat_display_screen.dart';
 import 'surah_word_display_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // TODO: Update before release
-const String appVersion = "1.0.2";
+const String appVersion = "1.0.3";
 
 class QBSurahListScreen extends StatefulWidget {
   const QBSurahListScreen({Key? key}) : super(key: key);
@@ -23,10 +24,19 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-          title: Text(
-        "Quran For Blind",
-        style: Theme.of(context).textTheme.titleLarge,
-      )),
+          title: Text( "Noble Quran", style: Theme.of(context).textTheme.titleLarge, ),
+          actions: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: IconButton(
+                  icon: const Icon(Icons.help, size: 30,),
+                  tooltip: 'Help on how to use the app',
+                  onPressed: () {
+                    _launchHelpUrl();
+                  },
+                ),
+              ),
+          ],),
       body: Directionality(
         textDirection: TextDirection.rtl,
         child: Column(
@@ -99,7 +109,8 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
                         );
                       default:
                         if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
+                          return Text('Error: ${snapshot.error}',
+                              style: const TextStyle(color: Colors.white),);
                         } else {
                           List<NQSurahTitle> titles = snapshot.data ?? [];
                           return ListView.separated(
@@ -241,4 +252,12 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
       },
     );
   }
+
+  Future<void> _launchHelpUrl() async {
+    Uri url = Uri.parse("https://www.youtube.com/watch?v=KZoIFMhi8hk");
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
 }
