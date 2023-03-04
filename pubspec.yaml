@@ -3,7 +3,7 @@ description: Noble Quran app for Visually Challenged, with word by word meaning
 
 publish_to: 'none'
 
-version: 1.0.0+3
+version: 1.0.0+4
 
 environment:
   sdk: '>=2.18.0-189.0.dev <3.0.0'

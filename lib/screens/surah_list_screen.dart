@@ -7,7 +7,7 @@ import 'surah_ayat_display_screen.dart';
 import 'surah_word_display_screen.dart';
 
 // TODO: Update before release
-const String appVersion = "1.0.3";
+const String appVersion = "1.0.4";
 
 class QBSurahListScreen extends StatefulWidget {
   const QBSurahListScreen({Key? key}) : super(key: key);
