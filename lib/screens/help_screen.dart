@@ -5,7 +5,7 @@ class HelpScreen extends StatelessWidget {
   const HelpScreen({Key? key}) : super(key: key);
 
   static const String _youtubeUrl = "https://www.youtube.com/watch?v=KZoIFMhi8hk";
-  static const String _message = """This Quran app was created specifically with the visually challenged in mind. The app has been optimized to function with screen readers such as talkback on Android and voice-over on iPhone. Use these screen readers to read the Arabic and English versions of the Quran. High contrast colors have also been used.""";
+  static const String _message = """Assalamu Alaikum, This Quran app was designed, with lots of love, for the visually challenged. The app has been optimized to function with screen readers such as talkback on Android and voice-over on iPhone. Use these screen readers to read the Arabic and English versions of the Quran. High contrast colors have also been used. More features coming soon...""";
 
   @override
   Widget build(BuildContext context) {
