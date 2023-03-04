@@ -41,7 +41,7 @@ class _QBSurahAyatDisplayScreenState extends State<QBSurahAyatDisplayScreen> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: const ColorScheme.dark().background,
         appBar: AppBar(
             title: Text("Surah  Screen",
                 semanticsLabel: "Surah  Screen",
@@ -104,7 +104,7 @@ class _QBSurahAyatDisplayScreenState extends State<QBSurahAyatDisplayScreen> {
                                           }
                                         },
                                         style: ElevatedButton.styleFrom(
-                                            primary: Colors.white),
+                                            backgroundColor: Colors.white),
                                         child: Text(
                                           "Previous aayat",
                                           style: Theme.of(context)
@@ -135,7 +135,7 @@ class _QBSurahAyatDisplayScreenState extends State<QBSurahAyatDisplayScreen> {
                                         }
                                       },
                                       style: ElevatedButton.styleFrom(
-                                          primary: Colors.white),
+                                          backgroundColor: Colors.white),
                                       child: Text(
                                         "Next aayat",
                                         style: Theme.of(context)

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:noble_quran/models/surah_title.dart';
 import 'package:noble_quran/noble_quran.dart';
-import 'package:quran_for_blind_app_flutter/screens/help_screen.dart';
+import 'help_screen.dart';
 import '../enums/quran_reading_type_enum.dart';
 import 'surah_ayat_display_screen.dart';
 import 'surah_word_display_screen.dart';
@@ -22,7 +22,7 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: const ColorScheme.dark().background,
       appBar: AppBar(
         title: Text(
           "Noble Quran",
@@ -73,7 +73,7 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
                       height: 60,
                       child: ElevatedButton(
                           style:
-                              ElevatedButton.styleFrom(primary: Colors.white),
+                              ElevatedButton.styleFrom(backgroundColor: Colors.white),
                           onPressed: () async {
                             QuranReadingTypeEnum? mode =
                                 await _readingModeSelectionDialog(context);
@@ -208,7 +208,7 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
       BuildContext context) async {
     // set up the buttons
     Widget wordButton = ElevatedButton(
-      style: ElevatedButton.styleFrom(primary: Colors.black),
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
       onPressed: () {
         Navigator.of(context).pop(QuranReadingTypeEnum.wordByWord);
       },
@@ -219,7 +219,7 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
     );
 
     Widget ayatButton = ElevatedButton(
-      style: ElevatedButton.styleFrom(primary: Colors.black),
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
       child: const Text(
         "Entire Aayat",
         style: TextStyle(color: Colors.white),
@@ -230,7 +230,7 @@ class _QBSurahListScreenState extends State<QBSurahListScreen> {
     );
 
     Widget cancelButton = ElevatedButton(
-      style: ElevatedButton.styleFrom(primary: Colors.black),
+      style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
       onPressed: () {
         Navigator.of(context).pop();
       },
